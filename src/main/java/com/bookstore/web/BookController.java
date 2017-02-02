@@ -18,6 +18,11 @@ public class BookController {
 	@Autowired
 	private BookRepository repository;
 	
+	@RequestMapping(value="/login")
+	public String login(){	
+	return"login";
+	
+	}
 	
 	
 	@RequestMapping(value="/booklist")

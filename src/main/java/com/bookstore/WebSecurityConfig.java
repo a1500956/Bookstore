@@ -19,14 +19,15 @@ protected void configure(HttpSecurity http) throws Exception{
 	http
 	
 		.authorizeRequests()
-		.antMatchers("/**", "/boolist").permitAll()
+		.antMatchers("/css/**").permitAll()
 		.anyRequest().authenticated()
 		.and()
-		.formLogin()
+	.formLogin()
 		.loginPage("/login")
+		.defaultSuccessUrl("/booklist")
 		.permitAll()
 		.and()
-		.logout()
+	.logout()
 		.permitAll();
 	
 	
@@ -37,7 +38,8 @@ public void configureGLobal(AuthenticationManagerBuilder auth) throws Exception 
 	auth
 	
 		.inMemoryAuthentication()
-		.withUser("user").password("password").roles("USER");
+		.withUser("jukka").password("password").roles("USER").and()
+		.withUser("admin").password("password").roles("USER", "ADMIN");
 }
 
 }
