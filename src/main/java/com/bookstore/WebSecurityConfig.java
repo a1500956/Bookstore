@@ -6,15 +6,20 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.bookstore.service.UserDetailServiceImpl;
 
 
 @Configuration
 @EnableWebSecurity
 
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-@Override
-protected void configure(HttpSecurity http) throws Exception{
+	@Autowired
+    private UserDetailServiceImpl userDetailsService;	
+	
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {	
 
 	http
 	
@@ -33,13 +38,12 @@ protected void configure(HttpSecurity http) throws Exception{
 	
 }
 
+
+
 @Autowired
+
 public void configureGLobal(AuthenticationManagerBuilder auth) throws Exception {
-	auth
-	
-		.inMemoryAuthentication()
-		.withUser("jukka").password("password").roles("USER").and()
-		.withUser("admin").password("password").roles("USER", "ADMIN");
+	auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 }
 
 }
